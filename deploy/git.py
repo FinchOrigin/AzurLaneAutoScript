@@ -65,7 +65,7 @@ class GitManager(DeployConfig):
                 os.remove(lock_file)
         if keep_changes:
             if self.execute(f'"{self.git}" stash', allow_failure=True):
-                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
+                self.execute(f'"{self.git}" pull {source} {branch}')
                 if self.execute(f'"{self.git}" stash pop', allow_failure=True):
                     pass
                 else:
@@ -74,10 +74,10 @@ class GitManager(DeployConfig):
             else:
                 logger.info('Stash failed, this may be the first installation, drop changes instead')
                 self.execute(f'"{self.git}" reset --hard {source}/{branch}')
-                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
+                self.execute(f'"{self.git}" pull {source} {branch}')
         else:
             self.execute(f'"{self.git}" reset --hard {source}/{branch}')
-            self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
+            self.execute(f'"{self.git}" pull {source} {branch}')
 
         logger.hr('Show Version', 1)
         self.execute(f'"{self.git}" --no-pager log --no-merges -1')
