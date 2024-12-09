@@ -27,9 +27,10 @@ class GeneratedConfig:
     Emulator_AdbRestart = False
 
     # Group `EmulatorInfo`
-    EmulatorInfo_Emulator = 'auto'  # auto, NoxPlayer, NoxPlayer64, BlueStacks4, BlueStacks5, BlueStacks4HyperV, BlueStacks5HyperV, LDPlayer3, LDPlayer4, LDPlayer9, MuMuPlayer, MuMuPlayerX, MuMuPlayer12, MEmuPlayer
+    EmulatorInfo_Emulator = 'auto'  # auto, NoxPlayer, NoxPlayer64, BlueStacks4, BlueStacks5, BlueStacks4HyperV, BlueStacks5HyperV, LDPlayer3, LDPlayer4, LDPlayer9, MuMuPlayer, MuMuPlayerX, MuMuPlayer12, MEmuPlayer, Waydroid
     EmulatorInfo_name = None
     EmulatorInfo_path = None
+    EmulatorInfo_DailyRestart = False
 
     # Group `Error`
     Error_HandleError = True
@@ -439,6 +440,7 @@ class GeneratedConfig:
 
     # Group `GameManager`
     GameManager_AutoRestart = True
+    GameManager_EmulatorRestart = False
 
     # Group `Storage`
     Storage_Storage = {}

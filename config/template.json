@@ -12,7 +12,8 @@
     "EmulatorInfo": {
       "Emulator": "auto",
       "name": null,
-      "path": null
+      "path": null,
+      "DailyRestart": false
     },
     "Error": {
       "HandleError": true,
@@ -1870,7 +1871,8 @@
   },
   "GameManager": {
     "GameManager": {
-      "AutoRestart": true
+      "AutoRestart": true,
+      "EmulatorRestart": false
     },
     "Storage": {
       "Storage": {}

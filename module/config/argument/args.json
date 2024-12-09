@@ -161,7 +161,8 @@
           "MuMuPlayer",
           "MuMuPlayerX",
           "MuMuPlayer12",
-          "MEmuPlayer"
+          "MEmuPlayer",
+          "Waydroid"
         ]
       },
       "name": {
@@ -171,6 +172,10 @@
       "path": {
         "type": "textarea",
         "value": null
+      },
+      "DailyRestart": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Error": {
@@ -9249,6 +9254,10 @@
       "AutoRestart": {
         "type": "checkbox",
         "value": true
+      },
+      "EmulatorRestart": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {

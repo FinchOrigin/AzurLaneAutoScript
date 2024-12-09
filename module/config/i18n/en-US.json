@@ -454,7 +454,8 @@
       "MuMuPlayer": "MuMu Player",
       "MuMuPlayerX": "MuMu Player X",
       "MuMuPlayer12": "MuMu Player 12",
-      "MEmuPlayer": "MEmu Player"
+      "MEmuPlayer": "MEmu Player",
+      "Waydroid": "Waydroid"
     },
     "name": {
       "name": "Emulator Instance Name",
@@ -463,6 +464,10 @@
     "path": {
       "name": "Emulator Installation Path",
       "help": ""
+    },
+    "DailyRestart": {
+      "name": "EmulatorInfo.DailyRestart.name",
+      "help": "EmulatorInfo.DailyRestart.help"
     }
   },
   "Error": {
@@ -2509,6 +2514,10 @@
     "AutoRestart": {
       "name": "Automatic Login",
       "help": "Log back into the game when the game has been ended."
+    },
+    "EmulatorRestart": {
+      "name": "GameManager.EmulatorRestart.name",
+      "help": "GameManager.EmulatorRestart.help"
     }
   },
   "Storage": {

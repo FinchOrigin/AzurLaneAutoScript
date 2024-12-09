@@ -74,6 +74,7 @@ EmulatorInfo:
       MuMuPlayerX,
       MuMuPlayer12,
       MEmuPlayer,
+      Waydroid,
     ]
   name:
     value: null
@@ -81,6 +82,7 @@ EmulatorInfo:
   path:
     value: null
     type: textarea
+  DailyRestart: False
 Error:
   HandleError: true
   SaveError: true
@@ -744,3 +746,4 @@ AzurLaneUncensored:
     display: disabled
 GameManager:
   AutoRestart: true
+  EmulatorRestart: false

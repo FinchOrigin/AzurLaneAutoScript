@@ -9,8 +9,7 @@ from uiautomator2.xpath import XPath, XPathSelector
 import module.config.server as server
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, crop, random_rectangle_point
-from module.exception import (GameStuckError, GameTooManyClickError,
-                              RequestHumanTakeover)
+from module.exception import GameStuckError, GameTooManyClickError, RequestHumanTakeover
 from module.handler.assets import *
 from module.logger import logger
 from module.map.assets import *
@@ -153,8 +152,17 @@ class LoginHandler(UI):
         # self.ensure_no_unfinished_campaign()
 
     def app_restart(self):
-        logger.hr('App restart')
-        self.device.app_stop()
+        from module.config.utils import get_server_next_update
+
+        if self.config.EmulatorInfo_DailyRestart \
+                and self.config.Scheduler_NextRun.strftime('%H:%M:%S') \
+                == get_server_next_update(self.config.Scheduler_ServerUpdate).strftime('%H:%M:%S'):
+            logger.hr('Emulator restart')
+            self.device.emulator_stop()
+            self.device.emulator_start()
+        else:
+            logger.hr('App restart')
+            self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()

@@ -454,7 +454,8 @@
       "MuMuPlayer": "MuMu模擬器",
       "MuMuPlayerX": "MuMu模擬器X",
       "MuMuPlayer12": "MuMu模擬器12",
-      "MEmuPlayer": "逍遙模擬器"
+      "MEmuPlayer": "逍遙模擬器",
+      "Waydroid": "Waydroid"
     },
     "name": {
       "name": "模擬器實例名稱",
@@ -463,6 +464,10 @@
     "path": {
       "name": "模擬器安裝路徑",
       "help": ""
+    },
+    "DailyRestart": {
+      "name": "EmulatorInfo.DailyRestart.name",
+      "help": "EmulatorInfo.DailyRestart.help"
     }
   },
   "Error": {
@@ -2509,6 +2514,10 @@
     "AutoRestart": {
       "name": "自動登錄",
       "help": "遊戲被強制結束後自動登錄遊戲"
+    },
+    "EmulatorRestart": {
+      "name": "GameManager.EmulatorRestart.name",
+      "help": "GameManager.EmulatorRestart.help"
     }
   },
   "Storage": {

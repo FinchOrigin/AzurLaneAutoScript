@@ -15,9 +15,18 @@ from module.base.utils import ensure_time
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
 from module.device.env import IS_LINUX, IS_MACINTOSH, IS_WINDOWS
-from module.device.method.utils import (PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
-                                        handle_unknown_host_service, possible_reasons, random_port, recv_all,
-                                        remove_shell_warning, retry_sleep)
+from module.device.method.utils import (
+    RETRY_TRIES,
+    PackageNotInstalled,
+    get_serial_pair,
+    handle_adb_error,
+    handle_unknown_host_service,
+    possible_reasons,
+    random_port,
+    recv_all,
+    remove_shell_warning,
+    retry_sleep,
+)
 from module.exception import EmulatorNotRunningError, RequestHumanTakeover
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
@@ -113,7 +122,7 @@ class Connection(ConnectionAttr):
             self.detect_device()
 
         # Connect
-        self.adb_connect()
+        self.adb_connect(5)
         logger.attr('AdbDevice', self.adb)
 
         # Package
@@ -641,7 +650,7 @@ class Connection(ConnectionAttr):
         return self.adb_command(cmd)
 
     @Config.when(DEVICE_OVER_HTTP=False)
-    def adb_connect(self):
+    def adb_connect(self, timeout_s: float = None):
         """
         Connect to a serial, try 3 times at max.
         If there's an old ADB server running while Alas is using a newer one, which happens on Chinese emulators,
@@ -677,32 +686,35 @@ class Connection(ConnectionAttr):
 
         # Try to connect
         for _ in range(3):
-            msg = self.adb_client.connect(self.serial)
-            logger.info(msg)
-            # Connected to 127.0.0.1:59865
-            # Already connected to 127.0.0.1:59865
-            if 'connected' in msg:
-                return True
-            # bad port number '598265' in '127.0.0.1:598265'
-            elif 'bad port' in msg:
-                possible_reasons('Serial incorrect, might be a typo')
-                raise RequestHumanTakeover
-            # cannot connect to 127.0.0.1:55555:
-            # No connection could be made because the target machine actively refused it. (10061)
-            elif '(10061)' in msg:
-                # MuMu12 may switch serial if port is occupied
-                # Brute force connect nearby ports to handle serial switches
-                if self.is_mumu12_family:
-                    before = self.serial
-                    serial_list = [self.serial.replace(str(self.port), str(self.port + offset))
-                                   for offset in [1, -1, 2, -2]]
-                    self.adb_brute_force_connect(serial_list)
-                    self.detect_device()
-                    if self.serial != before:
-                        return True
-                # No such device
-                logger.warning('No such device exists, please restart the emulator or set a correct serial')
-                raise EmulatorNotRunningError
+            try:
+                msg = self.adb_client.connect(self.serial, timeout_s)
+                logger.info(msg)
+                # Connected to 127.0.0.1:59865
+                # Already connected to 127.0.0.1:59865
+                if 'connected' in msg:
+                    return True
+                # bad port number '598265' in '127.0.0.1:598265'
+                elif 'bad port' in msg:
+                    possible_reasons('Serial incorrect, might be a typo')
+                    raise RequestHumanTakeover
+                # cannot connect to 127.0.0.1:55555:
+                # No connection could be made because the target machine actively refused it. (10061)
+                elif '(10061)' in msg:
+                    # MuMu12 may switch serial if port is occupied
+                    # Brute force connect nearby ports to handle serial switches
+                    if self.is_mumu12_family:
+                        before = self.serial
+                        serial_list = [self.serial.replace(str(self.port), str(self.port + offset))
+                                    for offset in [1, -1, 2, -2]]
+                        self.adb_brute_force_connect(serial_list)
+                        self.detect_device()
+                        if self.serial != before:
+                            return True
+                    # No such device
+                    logger.warning('No such device exists, please restart the emulator or set a correct serial')
+                    raise EmulatorNotRunningError
+            except AdbTimeout:
+                logger.warning(f'Failed to connect {self.serial} after {timeout_s}s')
 
         # Failed to connect
         logger.warning(f'Failed to connect {self.serial} after 3 trial, assume connected')

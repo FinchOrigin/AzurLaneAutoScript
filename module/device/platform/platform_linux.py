@@ -152,6 +152,9 @@ class PlatformLinux(PlatformBase, EmulatorManager):
                 continue
             show_package(packages)
 
+            if self.adb_shell(["getprop", "sys.boot_completed", "0"]) != "1":
+                continue
+
             # All check passed
             break
 
